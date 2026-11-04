@@ -1,0 +1,37 @@
+.FundingChangeOverTime {
+  svg {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .change-bar {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .budget-dot {
+    cursor: pointer;
+    transition: r 0.2s ease;
+
+    &:hover {
+      r: 6;
+    }
+  }
+
+  .budget-line {
+    pointer-events: none;
+  }
+
+  .x-axis {
+    cursor: pointer;
+    text {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

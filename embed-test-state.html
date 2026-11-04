@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hawai&#699;i State Budget — Embed Dev</title>
+  <link rel="stylesheet" href="/dist-embed-state/hfp-embed.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" />
+  <style>
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #ffffff;
+      color: #153750;
+    }
+    h1 {
+      font-size: 2.2em;
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    h2 {
+      color: #008f8c;
+      font-size: 1.5em;
+      text-align: center;
+      margin-top: 60px;
+      font-weight: 600;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #697d8e;
+      font-size: 1em;
+      max-width: 700px;
+      margin: 0 auto 20px;
+    }
+    .chart-container {
+      margin: 20px 0 40px;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #e3e6ea;
+      margin: 40px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>10 Year Budget Trends</h1>
+  <p class="subtitle">Explore how Hawai&#699;i's spending priorities and funding sources have evolved over the last decade.</p>
+
+  <hr />
+
+  <h2>Annual Appropriations by Funding Source</h2>
+  <p class="subtitle">Each bar represents one fiscal year's total budget, broken down by funding source</p>
+  <div class="chart-container" id="chart-source"></div>
+
+  <h2>Annual Appropriations by Budget Area</h2>
+  <p class="subtitle">Each bar represents one fiscal year's total budget, broken down by budget area</p>
+  <div class="chart-container" id="chart-area"></div>
+
+  <h2>Annual Appropriations by Department</h2>
+  <p class="subtitle">Each bar represents one fiscal year's total budget, broken down by department</p>
+  <div class="chart-container" id="chart-dept"></div>
+
+  <hr />
+
+  <h2>Year-Over-Year Change</h2>
+  <p class="subtitle">Each bar represents the percent change from the previous fiscal year, with trend lines for the major funding sources</p>
+  <div class="chart-container" id="chart-yoy"></div>
+
+  <hr />
+
+  <h1 style="margin-top: 80px;">Fiscal Year Breakdown</h1>
+  <p class="subtitle">Drill down from budget areas to departments to programs for any fiscal year.</p>
+
+  <h2>Budget Composition</h2>
+  <p class="subtitle">Outer ring shows where money goes and inner ring shows where it comes from</p>
+  <div class="chart-container" id="chart-donut"></div>
+
+  <h2>Fiscal Year Breakdown by Funding Source</h2>
+  <p class="subtitle">Click any bar to drill into departments and programs</p>
+  <div class="chart-container" id="chart-breakdown"></div>
+
+  <script type="module" src="/dist-embed-state/hfp-embed.js"></script>
+  <script type="module">
+    // Wait for hfp to be available
+    function waitForHfp() {
+      if (window.hfp?.renderChart) {
+        window.hfp.renderChart('#chart-source', 'stacked-bar-source')
+        window.hfp.renderChart('#chart-area', 'stacked-bar-area')
+        window.hfp.renderChart('#chart-dept', 'stacked-bar-department')
+        window.hfp.renderChart('#chart-yoy', 'yoy-change')
+        window.hfp.renderChart('#chart-donut', 'budget-composition')
+        window.hfp.renderChart('#chart-breakdown', 'funding-breakdown')
+      } else {
+        setTimeout(waitForHfp, 50)
+      }
+    }
+    waitForHfp()
+  </script>
+</body>
+</html>

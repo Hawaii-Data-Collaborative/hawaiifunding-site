@@ -1,0 +1,283 @@
+:root {
+  --color-primary: #153750;
+  --color-primary-with-alpha: rgba(21, 55, 80, 0.2);
+  --color-secondary: #008f8c;
+  --blur: 2px;
+
+  --bg: #ffffff;
+  --ink: #000000;
+  --ink-2: #697d8e;
+  --teal: #008f8c;
+  --green: #008f8c;
+  --green-2: #008f8c;
+  --orange: #c44e00;
+  --orange-2: #9c3d6a;
+  --blue: #0c5a9a;
+  --blue-2: #4863a0;
+  --navy: #153750;
+  --darkblue: #153750;
+  --gray: #697d8e;
+  --gray-2: #c4c4c4;
+
+  --font-size-sm: 13px;
+  --font-size-md: 15px;
+  --font-size-lg: 17px;
+}
+
+// SVG text elements
+
+svg text,
+svg tspan {
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+}
+
+svg .tick text,
+svg .legend-text,
+svg .legend-item text,
+svg .axis-label {
+  fill: var(--ink);
+}
+
+// MUI
+
+body {
+  .MuiInputBase-root {
+    font-size: 14px;
+  }
+
+  .MuiSelect-select {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .MuiMenu-root {
+    .MuiMenuItem-root {
+      font-size: 14px;
+      .MuiListItemIcon-root {
+        min-width: 32px;
+      }
+      .MuiSvgIcon-root {
+        font-size: 1.15rem;
+      }
+      .MuiTypography-root {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .MuiButton-root {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 0.78rem;
+    min-height: 32px;
+
+    &.MuiButton-sizeSmall {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      min-height: 28px;
+    }
+
+    &.MuiButton-sizeLarge {
+      padding-top: 6px;
+      padding-bottom: 6px;
+      min-height: 40px;
+    }
+  }
+
+  .MuiTab-root.Mui-selected {
+    background-color: #f8f8f8;
+  }
+}
+
+// Tooltips
+
+body .tooltip {
+  z-index: 1000;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.tooltip-stacked-bar,
+.tooltip-yoy,
+.tooltip-viz6,
+.viz7-tooltip,
+.viz8-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 10px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 10000;
+  white-space: pre-wrap;
+  line-height: 1.3;
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+// Federal stacked-bar tooltip can grow tall (Other rollup breakdown).
+// Cap it to the viewport and allow scrolling instead of overflowing offscreen.
+.tooltip-federal-stacked {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+// Scroll fade wrapper — place around the scroll container
+
+.scroll-fade-wrapper {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
+    z-index: 1;
+  }
+}
+
+// Other
+
+.labelvalue {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  margin-bottom: 7px;
+  align-items: center;
+  & > span:nth-child(1) {
+    color: #888;
+  }
+}
+
+.labelvalue2 {
+  display: grid;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+  &.cols-2 {
+    grid-template-columns: auto 1fr;
+  }
+  &.cols-3 {
+    grid-template-columns: auto 1fr auto;
+  }
+  > span:last-child {
+    text-align: right;
+    font-weight: 600;
+  }
+}
+
+.link {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.popup {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  max-height: calc(100vh - 30px);
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  .MuiTypography-h6 {
+    font-size: 15px;
+    font-weight: 600;
+  }
+}
+
+.text-1 {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.simple-button {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+  &:hover {
+    opacity: 9;
+  }
+  &:active {
+    opacity: 1;
+  }
+}
+
+.money {
+  color: rgb(30, 179, 82);
+  font-size: 20px;
+  font-weight: 300;
+}
+.money-suffix {
+  color: #aaa;
+}
+
+// Animations
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+.fade-up {
+  animation: fadeUp 0.3s ease-in-out;
+}
+
+.dive-in {
+  animation:
+    diveIn 0.7s ease-in forwards,
+    fadeOut 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    transform: translateY(12px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes diveIn {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(3);
+  }
+}

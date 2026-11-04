@@ -1,0 +1,26 @@
+// Scoped styles for the federal embed bundle.
+// Mirrors embed-state.scss but only imports what federal charts need.
+
+.hfp-embed-federal {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-size: var(--font-size-sm);
+
+  * {
+    font-family: inherit;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--color-primary);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.tooltip {
+  font-family: var(--body-font-font-family);
+}
+
+@import '../shared.scss';

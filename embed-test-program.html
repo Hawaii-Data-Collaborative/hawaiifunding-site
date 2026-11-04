@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Program ID — Embed Dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" />
+  <style>
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #ffffff;
+      color: #153750;
+    }
+    h1 {
+      font-size: 2.2em;
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #697d8e;
+      font-size: 1em;
+      max-width: 700px;
+      margin: 0 auto 20px;
+    }
+    .chart-container {
+      margin: 20px 0 40px;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #e3e6ea;
+      margin: 40px 0;
+    }
+    code {
+      background: #f2f4f6;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Program ID</h1>
+  <p class="subtitle">Program-level state budget detail: what a program was appropriated, how that figure moved through the legislature, and the grants, capital appropriations, contracts, and source documents attached to it.</p>
+  <p class="subtitle">Search by program ID (<code>AGR151</code>) or keyword. Deep-link a program with <code>?program=AGR151</code> — try <a href="?program=AGS131">AGS131</a> (has capital appropriations) or <a href="?program=DEF116">DEF116</a>.</p>
+  <!-- Sections that only some programs have, so they're reachable for QA without hunting.
+       Only 56 of 293 programs have any linked federal award, so most program pages show
+       Other Associated Information with a single "Budget & Finance" source. -->
+  <p class="subtitle">Sparse sections: <a href="?program=HMS301">HMS301</a> (Federal Award Summary — 177 awards over 11 years, expandable) · <a href="?program=EDN100">EDN100</a> (grants-in-aid) · <a href="?program=TRN102">TRN102</a> (1,272 contracts, free-text terms)</p>
+
+  <hr />
+
+  <div class="chart-container" id="chart-program-id"></div>
+
+  <script type="module" src="/src/embed/main-program.tsx"></script>
+  <script type="module">
+    // Mirrors the production embed: one div, one call. The `program` param is read from
+    // this page's URL so deep links behave the same way they will on the live page.
+    const program = new URLSearchParams(location.search).get('program')
+
+    function waitForHfp() {
+      if (window.hfp?.renderProgramPage) {
+        window.hfp.renderProgramPage('#chart-program-id', program ? { program } : undefined)
+      } else {
+        setTimeout(waitForHfp, 50)
+      }
+    }
+    waitForHfp()
+  </script>
+</body>
+</html>

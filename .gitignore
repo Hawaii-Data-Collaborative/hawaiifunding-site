@@ -1,0 +1,10 @@
+node_modules
+/dist
+/dist-embed-state
+/dist-embed-federal
+/dist-embed-program
+# Data files copied from State-Budget's Processed Data/site/ (large; rebuilt there)
+/public/data
+.env
+.DS_Store
+desktop.ini

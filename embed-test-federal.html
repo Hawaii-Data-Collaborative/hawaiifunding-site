@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Federal Spending Trends — Embed Dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" />
+  <style>
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #ffffff;
+      color: #153750;
+    }
+    h1 {
+      font-size: 2.2em;
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    h2 {
+      color: #008f8c;
+      font-size: 1.5em;
+      text-align: center;
+      margin-top: 60px;
+      font-weight: 600;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #697d8e;
+      font-size: 1em;
+      max-width: 700px;
+      margin: 0 auto 20px;
+    }
+    .chart-container {
+      margin: 20px 0 40px;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #e3e6ea;
+      margin: 40px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Federal Spending Trends</h1>
+  <p class="subtitle">[Subtitle needed]</p>
+
+  <hr />
+
+  <h2>Annual Obligations by Award Type</h2>
+  <p class="subtitle">Each bar represents one fiscal year's total obligations, broken down by award type (block grant, formula, direct payment, other)</p>
+  <div class="chart-container" id="chart-award-type"></div>
+
+  <h2>Annual Obligations by Recipient Type</h2>
+  <p class="subtitle">Each bar represents one fiscal year's total obligations, broken down by recipient type (individual, government, nonprofit, etc.)</p>
+  <div class="chart-container" id="chart-recipient-type"></div>
+
+  <h2>Annual Obligations by Department</h2>
+  <p class="subtitle">Each bar represents one fiscal year's total obligations, broken down by Department (breakout by agency as well?)</p>
+  <div class="chart-container" id="chart-department"></div>
+
+  <hr />
+
+  <h2>Year-Over-Year Change</h2>
+  <p class="subtitle">Each bar shows the overall percent change from the previous fiscal year (left axis). Trend lines show total annual obligations by award type (right axis), giving magnitude context for the year-over-year shift.</p>
+  <div class="chart-container" id="chart-yoy"></div>
+
+  <hr />
+
+  <h2>Annual Per Capita Funding</h2>
+  <p class="subtitle">Top: side-by-side bars compare Hawaiʻi per-capita funding to the National Average for each fiscal year. Bottom: the Hawaiʻi-to-National ratio with a Parity (1.0×) reference line — the moment Hawaiʻi crosses above the national average is visually unambiguous.</p>
+  <div class="chart-container" id="chart-per-capita"></div>
+
+  <hr />
+
+  <h1 style="margin-top: 80px;">Fiscal Year Breakdown</h1>
+  <p class="subtitle">Drill down from department to agencies to awards for any fiscal year.</p>
+
+  <h2>Federal Spending Composition</h2>
+  <p class="subtitle">Click a slice to drill down: Budget Authority → Recipient Type → Department → Award Type.</p>
+  <div class="chart-container" id="chart-composition"></div>
+
+  <h2>Annual Obligations by Department/Agency</h2>
+  <p class="subtitle">Department/Agency → Program → Awards. Click a bar (or its label) to drill down; click an individual award to view it on USASpending.gov.</p>
+  <div class="chart-container" id="chart-drilldown"></div>
+
+  <script type="module" src="/src/embed/main-federal.tsx"></script>
+  <script type="module">
+    function waitForHfp() {
+      if (window.hfp?.renderFederalChart) {
+        window.hfp.renderFederalChart('#chart-award-type', 'federal-by-award-type')
+        window.hfp.renderFederalChart('#chart-recipient-type', 'federal-by-recipient-type')
+        window.hfp.renderFederalChart('#chart-department', 'federal-by-department')
+        window.hfp.renderFederalChart('#chart-yoy', 'federal-yoy')
+        window.hfp.renderFederalChart('#chart-per-capita', 'federal-per-capita')
+        window.hfp.renderFederalChart('#chart-composition', 'federal-composition')
+        window.hfp.renderFederalChart('#chart-drilldown', 'federal-drilldown')
+      } else {
+        setTimeout(waitForHfp, 50)
+      }
+    }
+    waitForHfp()
+  </script>
+</body>
+</html>

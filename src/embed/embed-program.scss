@@ -1,0 +1,42 @@
+// Scoped styles for the Program ID embed bundle.
+// Mirrors embed-federal.scss — the program page needs the same link and font
+// inheritance rules, but is a full page rather than a centered chart, so it runs wider.
+
+.hfp-embed-program {
+  // min() rather than a bare 1200px: tables and charts manage their own horizontal
+  // scrolling, and this makes sure the wrapper itself can never push the host page
+  // sideways on a narrow viewport.
+  max-width: min(1200px, 100%);
+  margin: 0 auto;
+  font-size: var(--font-size-sm);
+
+  * {
+    font-family: inherit;
+  }
+
+  // Links stay underlined at rest — deliberately different from the federal embed, which
+  // keeps the site's hover-only convention.
+  //
+  // This rule is what governs link decoration on the page, not the MUI theme: MUI's Link
+  // already defaults to `underline="always"`, but `.hfp-embed-program a` carries a type
+  // selector on top of its class, which outspecifies MUI's generated class and wins
+  // regardless of injection order. Setting `underline` in the theme or per call site has no
+  // visible effect while this says otherwise.
+  //
+  // Hover-only was wrong here because four of the tables end in a Source column that is
+  // entirely links — bill worksheets, departmental PDFs, USAspending awards. Undecorated in
+  // a dense table they read as ordinary text, and QA found them only by chance hovering.
+  a {
+    text-decoration: underline;
+    color: var(--color-primary);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.tooltip {
+  font-family: var(--body-font-font-family);
+}
+
+@import '../shared.scss';

@@ -18,7 +18,10 @@ Every number the pages show comes from files built by the [State-Budget](https:/
 
 1. ~~Copy hfp's `client/` here.~~
 2. ~~Make the changes in `SITE_DATA.md`: read the data files instead of calling `/api/*`, take the year range from the data, and switch off analytics.~~ Done 2026-11-04: `src/staticData.ts` answers what the server did, and the three embed test pages run locally with no server.
-3. Compare it with the live site, page by page.
+3. ~~Compare it with the live site, page by page.~~ Done 2026-11-04, against hawaiifunding.org's fedviz, stateviz and programid pages, by every chart's labels and every Program ID section's text:
+   - **Federal page:** all 7 charts identical.
+   - **State page:** all 6 charts the same; in the budget composition donut two department labels are drawn in a different order.
+   - **Program ID (AGR141, EDN100, HMS301, TRN102):** every section has the same content. The only differences are the order of rows tied on amount in the capital projects and grants lists, which the live database returns in no fixed order.
 4. With the team's agreement: choose a license, make the repo public, and turn on GitHub Pages.
 
 The `/downloads` page (email-gated workbook zips) and the admin pages are not part of this repo.

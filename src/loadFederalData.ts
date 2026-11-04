@@ -1,7 +1,8 @@
 import * as d3 from 'd3'
 import { capitalCase } from 'change-case'
 import { num } from './util'
-import { BASE_URL, PRODUCTION } from './constants'
+import { DATA_URL } from './constants'
+import { composition } from './staticData'
 
 export interface FederalByAwardTypeRow {
   fiscal_year: number
@@ -44,9 +45,7 @@ export interface FederalCompositionFilters {
 }
 
 function dataPrefix(): string {
-  if (PRODUCTION) return BASE_URL
-  if (location.hostname === 'dev.hawaiidata.org') return '/fed-funds-charts'
-  return '/data'
+  return DATA_URL
 }
 
 const cache: Record<string, unknown> = {}
@@ -117,9 +116,9 @@ export function loadFederalPerCapita(): Promise<FederalPerCapitaRow[]> {
   }))
 }
 
-// Composition is fetched from the API (not CSV) because it powers an interactive
-// drill-down: Authority → Recipient Type → Department → Award Type. Each level's
-// query is small; we cache by filter tuple so re-visits within a session are free.
+// Composition powers an interactive drill-down: Authority → Recipient Type → Department →
+// Award Type. Each level is a filter and sum over federal/summary.json (staticData.ts); we
+// cache by filter tuple so re-visits within a session are free.
 const compositionCache = new Map<string, FederalCompositionRow[]>()
 
 export async function loadFederalComposition(filters: FederalCompositionFilters): Promise<FederalCompositionRow[]> {
@@ -127,14 +126,7 @@ export async function loadFederalComposition(filters: FederalCompositionFilters)
   const cached = compositionCache.get(cacheKey)
   if (cached) return cached
 
-  const params = new URLSearchParams({ fy: String(filters.fy) })
-  if (filters.authority) params.set('authority', filters.authority)
-  if (filters.recipientType) params.set('recipientType', filters.recipientType)
-  if (filters.department) params.set('department', filters.department)
-
-  const r = await fetch(`/api/federal/composition?${params}`)
-  if (!r.ok) throw new Error(`API ${r.status}`)
-  const raw = (await r.json()) as FederalCompositionRow[]
+  const raw = (await composition(filters)) as unknown as FederalCompositionRow[]
 
   // Display-time fixes:
   //   - At the leaf level (award type) the API returns lowercase award_category

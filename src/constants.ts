@@ -2,6 +2,13 @@ export const PRODUCTION = !['dev.hawaiidata.org', 'localhost'].includes(location
 
 export const BASE_URL = PRODUCTION ? 'https://dev.hawaiidata.org/fed-funds-charts' : ''
 
+/**
+ * Where the data files from State-Budget's build_site_data.py are served: every chart and the
+ * Program ID page read them here instead of asking hfp's server. Locally (`npm run dev`),
+ * `npm run copy-data` copies them into public/data/, which Vite serves at /data.
+ */
+export const DATA_URL = PRODUCTION ? `${BASE_URL}/data` : '/data'
+
 export const Chart = {
   FUNDING_OVERVIEW: 'overview',
   FUNDING_FLOW: 'flow',

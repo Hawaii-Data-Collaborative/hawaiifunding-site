@@ -9,11 +9,11 @@ import { loadFederalComposition, FederalCompositionRow } from '../../loadFederal
 import { YearSlider } from '../YearSlider'
 import { DownloadDataButton } from '../DownloadDataButton'
 import { useTrackInteract } from '../TrackedEmbed'
+import { composition, CompositionQuery, useFederalYears } from '../../staticData'
 
-const FY_MIN = 2016
-// Cap at the last complete fiscal year — the in-progress FY's USAspending
-// snapshot is partial and produces misleading slices.
-const FY_MAX = CURRENT_YEAR - 1
+// The year range (FY_MIN to FY_MAX) comes from the data: federal/summary.json's fyMin and
+// fyMax, the last complete fiscal year when the files were built. The in-progress FY's
+// USAspending snapshot is partial and produces misleading slices.
 
 type Level = 'authority' | 'recipient_type' | 'department' | 'award_type'
 type DrillableLevel = Exclude<Level, 'award_type'>
@@ -85,7 +85,11 @@ interface TransitionOrigin {
 
 export function FederalComposition() {
   useTooltipCleanup()
-  const [fy, setFy] = useState(FY_MAX)
+  const { fyMin: FY_MIN, fyMax: FY_MAX } = useFederalYears()
+  const [fy, setFy] = useState(CURRENT_YEAR - 1)
+  // Open on the data's last year once it has loaded (it differs from the calendar's once the
+  // data stops being refreshed).
+  useEffect(() => setFy(FY_MAX), [FY_MAX])
   const [path, setPath] = useState<DrillStep[]>([])
   const report = useTrackInteract()
   const [currentLevel, setCurrentLevel] = useState<Level>('authority')
@@ -264,24 +268,13 @@ export function FederalComposition() {
               filename={`federal-composition-${currentLevel}`}
               scope={`FY ${FY_MIN}\u2013${FY_MAX} \u00b7 ${currentLevel} level`}
               getRows={async () => {
-                const params = new URLSearchParams({
-                  fy: String(fy),
-                  allYears: '1',
-                  fyMin: String(FY_MIN),
-                  fyMax: String(FY_MAX)
-                })
+                const q: CompositionQuery = { fy, allYears: true }
                 for (const step of path) {
-                  if (step.level === 'authority') params.set('authority', step.selectedName)
-                  if (step.level === 'recipient_type') params.set('recipientType', step.selectedName)
-                  if (step.level === 'department') params.set('department', step.selectedName)
+                  if (step.level === 'authority') q.authority = step.selectedName
+                  if (step.level === 'recipient_type') q.recipientType = step.selectedName
+                  if (step.level === 'department') q.department = step.selectedName
                 }
-                const r = await fetch(`/api/federal/composition?${params}`)
-                if (!r.ok) throw new Error(`API ${r.status}`)
-                const rows = (await r.json()) as Array<{
-                  fiscal_year: number
-                  name: string
-                  obligations: number
-                }>
+                const rows = await composition(q)
                 return rows.map(row => ({
                   fiscal_year: row.fiscal_year,
                   level: currentLevel,

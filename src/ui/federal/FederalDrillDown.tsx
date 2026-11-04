@@ -3,13 +3,14 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { Box, Typography, ButtonGroup, Button, CircularProgress } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { capitalCase } from 'change-case'
-import { PALETTE_8, CURRENT_YEAR } from '../../constants'
+import { PALETTE_8 } from '../../constants'
 import { formatCurrency } from '../../util'
 import { useTooltipCleanup, useVizSize } from '../../hooks'
 import { formatAwardType } from '../../loadFederalData'
 import { YearSlider } from '../YearSlider'
 import { DownloadDataButton } from '../DownloadDataButton'
 import { useTrackInteract } from '../TrackedEmbed'
+import { drilldown, useFederalYears } from '../../staticData'
 
 type GroupBy = 'award_type' | 'recipient_category'
 
@@ -40,14 +41,14 @@ const GROUP_BY_LABEL: Record<GroupBy, string> = {
 }
 
 const DEFAULT_FY = 2024
-const FY_MIN = 2016
-// Cap at the last complete fiscal year — the in-progress FY's USAspending
-// snapshot is partial and produces misleading bars.
-const FY_MAX = CURRENT_YEAR - 1
+// The year range (FY_MIN to FY_MAX) comes from the data: federal/summary.json's fyMin and
+// fyMax, the last complete fiscal year when the files were built. The in-progress FY's
+// USAspending snapshot is partial and produces misleading bars.
 
 export function FederalDrillDown() {
   useTooltipCleanup()
 
+  const { fyMin: FY_MIN, fyMax: FY_MAX } = useFederalYears()
   const [fy, setFy] = useState<number>(DEFAULT_FY)
   const [debouncedFy, setDebouncedFy] = useState<number>(DEFAULT_FY)
   const [department, setDepartment] = useState<string | null>(null)
@@ -104,17 +105,9 @@ export function FederalDrillDown() {
   }, [fy])
 
   useEffect(() => {
-    const params = new URLSearchParams({ fy: String(debouncedFy), groupBy })
-    if (department) params.set('department', department)
-    if (program) params.set('program', program)
-
     setLoading(true)
     setError(null)
-    fetch(`/api/federal/drilldown?${params}`)
-      .then(r => {
-        if (!r.ok) throw new Error(`API ${r.status}`)
-        return r.json()
-      })
+    drilldown({ fy: debouncedFy, groupBy, department, program })
       .then(rows => {
         // Title-case `group` values for the legend / tooltip / bar segments.
         // The API returns raw `award_category` / `recipient_reporting_category`
@@ -270,18 +263,7 @@ export function FederalDrillDown() {
               filename={`federal-drilldown-${dataLevel}`}
               scope={`FY ${FY_MIN}\u2013${FY_MAX} \u00b7 ${dataLevel} level`}
               getRows={async () => {
-                const params = new URLSearchParams({
-                  fy: String(fy),
-                  groupBy,
-                  allYears: '1',
-                  fyMin: String(FY_MIN),
-                  fyMax: String(FY_MAX)
-                })
-                if (department) params.set('department', department)
-                if (program) params.set('program', program)
-                const r = await fetch(`/api/federal/drilldown?${params}`)
-                if (!r.ok) throw new Error(`API ${r.status}`)
-                const rows = (await r.json()) as any[]
+                const rows = await drilldown({ fy, groupBy, department, program, allYears: true })
                 return rows.map(row => ({
                   fiscal_year: row.fiscal_year,
                   level: dataLevel,

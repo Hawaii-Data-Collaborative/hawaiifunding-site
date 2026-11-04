@@ -17,19 +17,31 @@ Every number the pages show comes from files built by the [State-Budget](https:/
 ## Plan
 
 1. ~~Copy hfp's `client/` here.~~
-2. Make the changes in `SITE_DATA.md`: read the data files instead of calling `/api/*`, take the year range from the data, and switch off analytics.
-3. Run it locally and compare it with the live site, page by page.
+2. ~~Make the changes in `SITE_DATA.md`: read the data files instead of calling `/api/*`, take the year range from the data, and switch off analytics.~~ Done 2026-11-04: `src/staticData.ts` answers what the server did, and the three embed test pages run locally with no server.
+3. Compare it with the live site, page by page.
 4. With the team's agreement: choose a license, make the repo public, and turn on GitHub Pages.
 
 The `/downloads` page (email-gated workbook zips) and the admin pages are not part of this repo.
 
+## What changed from hfp
+
+- `src/staticData.ts` (new): returns exactly what hfp's `/api/program/*` and `/api/federal/*` returned, from the data files.
+- `src/constants.ts`: `DATA_URL`, where the data files are served (`/data` locally).
+- `src/loadProgramData.ts`, `src/loadFederalData.ts`, `src/loadStateData.ts`, `src/ui/federal/FederalDrillDown.tsx`, `src/ui/federal/FederalComposition.tsx`: read the files instead of calling the server; the federal charts take their year range from the data.
+- `src/analytics.ts`: off (nothing to send to, and no visitor IDs stored).
+- `package.json`: `npm run copy-data`, and d3 pinned to the versions hfp's `bun.lock` had (d3 7.9.0, d3-selection 3.0.0, d3-transition 3.0.1). The newer d3 7.9.2 / d3-transition 3.0.2 that npm picks otherwise break the production build of the state charts (`selection.transition is not a function`).
+- npm instead of Bun: `package-lock.json` replaces `bun.lock`.
+
 ## Running it locally
 
-Needs [Node.js](https://nodejs.org) (or [Bun](https://bun.sh), which hfp uses):
+Needs [Node.js](https://nodejs.org), and the data files built in State-Budget (`python build_site_data.py` there). From this folder:
 
 ```bash
 npm install
+npm run copy-data
 npm run dev
 ```
 
-The embed test pages are `embed-test-state.html`, `embed-test-federal.html` and `embed-test-program.html`.
+`copy-data` copies `..\State Budget\Processed Data\site` into `public\data` (set `SITE_DATA_DIR` to copy from elsewhere). Then open the test pages at <http://localhost:3001/embed-test-federal.html> and <http://localhost:3001/embed-test-program.html?program=EDN100>. They load the source directly.
+
+`embed-test-state.html` loads the built bundle instead, so build it first with `npm run build:embed-state` (and after each change).

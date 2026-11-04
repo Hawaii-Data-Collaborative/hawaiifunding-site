@@ -1,10 +1,12 @@
 import { capitalCase } from 'change-case'
 import { DEPT_CODE_TO_ABBREV } from './constants'
+import { programContracts, programDetail, programList } from './staticData'
 
 /**
  * Program ID data loading. Unlike the state vizzes (which pull the whole
- * state_budget.csv into window._data), these hit /api/program/* — a program page
- * needs one program out of 293, so downloading all of them would be absurd.
+ * state_budget.csv into window._data), these read one program's files (program/<ID>.json and
+ * program/<ID>.contracts.json, through staticData.ts) — a program page needs one program out
+ * of 293, so downloading all of them would be absurd.
  *
  * Display-time normalization lives here rather than in the API so the raw shapes stay
  * queryable: area codes get their "J. " prefix stripped and are title-cased, and
@@ -335,20 +337,6 @@ export function sentenceCaseCaps(text: string | null | undefined, keep: string[]
   return out
 }
 
-async function getJson<T>(path: string): Promise<T> {
-  const r = await fetch(path)
-  if (!r.ok) {
-    let detail = ''
-    try {
-      detail = ((await r.json()) as any)?.error ?? ''
-    } catch {
-      // non-JSON error body (e.g. a proxy error page) — the status is enough
-    }
-    throw new Error(detail ? `${detail} (${r.status})` : `API ${r.status}`)
-  }
-  return r.json() as Promise<T>
-}
-
 let programListPromise: Promise<ProgramSummary[]> | null = null
 
 /**
@@ -357,7 +345,7 @@ let programListPromise: Promise<ProgramSummary[]> | null = null
  */
 export function loadProgramList(): Promise<ProgramSummary[]> {
   if (!programListPromise) {
-    programListPromise = getJson<ProgramSummary[]>('/api/program/list')
+    programListPromise = programList()
       .then(rows =>
         rows.map(r => ({ ...r, program: titleCaseCaps(r.program), area: cleanArea(r.area) }))
       )
@@ -376,7 +364,7 @@ export async function loadProgramDetail(programId: string): Promise<ProgramDetai
   const cached = detailCache.get(id)
   if (cached) return cached
 
-  const d = await getJson<ProgramDetail>(`/api/program/${encodeURIComponent(id)}`)
+  const d = await programDetail(id)
   const detail: ProgramDetail = {
     ...d,
     program: {
@@ -426,7 +414,7 @@ export function contractSourceLabel(row: {
 /** Every contract row for a program, for the download — the table itself still pages. */
 export async function loadAllProgramContracts(programId: string): Promise<ContractRow[]> {
   const id = programId.trim().toUpperCase()
-  const d = await getJson<ContractsPage>(`/api/program/${encodeURIComponent(id)}/contracts?all=1`)
+  const d = await programContracts(id, 1, 'fy', 'desc', true)
   return d.rows.map(r => ({ ...r, entity: titleCaseCaps(r.entity) }))
 }
 
@@ -437,11 +425,9 @@ export async function loadProgramContracts(
   dir: SortDir = 'desc'
 ): Promise<ContractsPage> {
   const id = programId.trim().toUpperCase()
-  // Sorted server-side rather than in the table: only 25 of up to ~2,400 rows are on
-  // screen, so a client-side sort would reorder the page instead of the dataset.
-  const d = await getJson<ContractsPage>(
-    `/api/program/${encodeURIComponent(id)}/contracts?page=${page}&sort=${sort}&dir=${dir}`
-  )
+  // Sorted over the program's whole contract file rather than in the table: only 25 of up to
+  // ~2,400 rows are on screen, so sorting the table would reorder the page, not the dataset.
+  const d = await programContracts(id, page, sort, dir)
   return { ...d, rows: d.rows.map(r => ({ ...r, entity: titleCaseCaps(r.entity) })) }
 }
 

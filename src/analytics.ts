@@ -132,8 +132,12 @@ function ids() {
 
 /* ---------------------------------------------------------------------- sending */
 
+// Off: the static site has no server to collect events (hfp's /api/e). Returning here, before
+// ids(), also means no visitor or session IDs are written to the browser's storage.
+const ENABLED = false
+
 function send(batch: QueuedEvent[]) {
-  if (!batch.length) return
+  if (!ENABLED || !batch.length) return
   const { visitor, session } = ids()
   const body = JSON.stringify({ visitor, session, events: batch })
 

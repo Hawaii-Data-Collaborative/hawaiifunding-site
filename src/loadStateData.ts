@@ -9,8 +9,7 @@ import {
   TRUE_VALUES,
   FundingSource,
   SpendingType,
-  BASE_URL,
-  PRODUCTION
+  DATA_URL
 } from './constants'
 
 let cache: Row[] | null = null
@@ -26,16 +25,7 @@ export async function loadStateData(): Promise<Row[]> {
     return cache
   }
 
-  let prefix: string
-  if (PRODUCTION) {
-    prefix = BASE_URL
-  } else if (location.hostname === 'dev.hawaiidata.org') {
-    prefix = '/fed-funds-charts'
-  } else {
-    prefix = '/data'
-  }
-
-  const csvPath = `${prefix}/state_budget.csv`
+  const csvPath = `${DATA_URL}/state_budget.csv`
   console.log('[loadStateData] csvPath=%s', csvPath)
   const data = (await d3.csv(csvPath)) as unknown as Row[]
 

@@ -25,7 +25,8 @@ Every number the pages show comes from files built by the [State-Budget](https:/
 4. ~~Choose a license.~~ MIT, matching State-Budget (2026-11-04).
 5. ~~Make the repo public.~~ 2026-11-04.
 6. ~~Build the site's pages.~~ 2026-11-04: all seven pages of hawaiifunding.org (see [The site](#the-site)), styled after the Squarespace site.
-7. Before turning on GitHub Pages: the download files, and a decision on the stock photos and icons (see [Still to do](#still-to-do)).
+7. ~~Download files.~~ 2026-11-04: release [data-2026-11](https://github.com/Hawaii-Data-Collaborative/hawaiifunding-site/releases/tag/data-2026-11).
+8. Before turning on GitHub Pages: a decision on the stock photos and icons (see [Still to do](#still-to-do)).
 
 The `/downloads` page (email-gated workbook zips) and the admin pages are not part of this repo.
 
@@ -56,13 +57,24 @@ The text is copied from the live pages (2026-11-04). The shared header and foote
 
 Differences from the live site, all because there is no server:
 - **Contact:** the live form needs Squarespace to deliver it; this page gives an email address instead (ekern@hawaiidata.org; to change it, edit the link and its text in `contact/index.html`).
-- **Database:** the download buttons are plain links to `downloads/<name>.zip` (no email sign-up).
+- **Database:** the download buttons link straight to the files (no email sign-up). The seven zipped workbooks are attached to this repo's [releases](https://github.com/Hawaii-Data-Collaborative/hawaiifunding-site/releases), and the buttons use `releases/latest/download/<name>.zip`, which always serves the newest release's copy.
 - **Program ID:** can be linked to a program directly (`?program=EDN100`), which the live page can't.
 - No analytics.
 
+### Refreshing the downloads
+
+After a database release, rebuild the workbooks with State-Budget's `build_downloads.py`, then create a new release here with the seven zips attached (tag `data-YYYY-MM`). The Database page needs no change: its links always point at the newest release. Older releases stay available as dated snapshots.
+
+From the Downloads folder (PowerShell):
+
+```powershell
+gh release create data-2026-12 --repo Hawaii-Data-Collaborative/hawaiifunding-site --title "Data — December 2026" --notes "..." hi_state_cip.zip hi_state_budget_grants.zip hi_state_request_variance.zip hi_state_contracts.zip hi_state_budget.zip hi_state_budget_lifecycle.zip hawaii_federal_data.zip
+```
+
+Or on GitHub: Releases, Draft a new release, drag the zips in. The workbooks were checked on 2026-11-04: their database connections are empty, deleted stubs with no queries left.
+
 ### Still to do
 
-- **Download files:** `downloads/*.zip` aren't here yet. They come from State-Budget's `build_downloads.py`; `hawaii_federal_data.zip` (114 MB) is over GitHub's 100 MB file limit and would need to be a release asset.
 - **Stock photos and icons:** the hero photos are Shutterstock images and the small icons are from the Noun Project, both copied from the Squarespace site into `public/images/licensed/`, which is git-ignored. Before publishing, confirm HDC's licenses allow republishing them, or swap them out.
 
 ## Running it locally

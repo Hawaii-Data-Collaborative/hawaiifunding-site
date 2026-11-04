@@ -2,7 +2,7 @@
 
 A static version of the [hawaiifunding.org](https://hawaiifunding.org) charts and Program ID pages that needs no server or database. It is being prepared for the Hawaiʻi Funding Project's sunset in November 2026.
 
-**Status: private, in preparation.** The live site still runs from [hfp](https://github.com/Hawaii-Data-Collaborative/hfp), unchanged. Nothing here is published yet.
+**Status: in preparation.** The code is public, but there is no website here yet (GitHub Pages is off). The live site still runs from [hfp](https://github.com/Hawaii-Data-Collaborative/hfp), unchanged.
 
 ## Where this came from
 
@@ -23,7 +23,8 @@ Every number the pages show comes from files built by the [State-Budget](https:/
    - **State page:** all 6 charts the same; in the budget composition donut two department labels are drawn in a different order.
    - **Program ID (AGR141, EDN100, HMS301, TRN102):** every section has the same content. The only differences are the order of rows tied on amount in the capital projects and grants lists, which the live database returns in no fixed order.
 4. ~~Choose a license.~~ MIT, matching State-Budget (2026-11-04).
-5. Make the repo public and turn on GitHub Pages.
+5. ~~Make the repo public.~~ 2026-11-04.
+6. Build the site's pages and turn on GitHub Pages. Not started: the repo has the three chart bundles and developer test pages, and `DATA_URL` in a production build still points at dev.hawaiidata.org.
 
 The `/downloads` page (email-gated workbook zips) and the admin pages are not part of this repo.
 

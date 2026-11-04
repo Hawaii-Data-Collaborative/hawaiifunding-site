@@ -1,0 +1,64 @@
+# Builds the site and publishes it to GitHub Pages.
+#
+# Runs on every push to main, when a release is published (a new release brings new data), and by
+# hand from the Actions tab. The data files come from site-data.zip on the latest release (built by
+# State-Budget's build_site_data.py), not from git. The stock photos and icons in
+# public/images/licensed/ are git-ignored, so this build leaves them out (see vite.config.ts).
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Get the site data from the latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download --repo "${{ github.repository }}" --pattern site-data.zip --dir "$RUNNER_TEMP"
+          mkdir -p public/data
+          unzip -q "$RUNNER_TEMP/site-data.zip" -d public/data
+          echo "Site data built $(cat public/data/built.txt)"
+
+      - name: Build
+        env:
+          SITE_BASE: /${{ github.event.repository.name }}/
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -2,7 +2,7 @@
 
 A static version of the [hawaiifunding.org](https://hawaiifunding.org) charts and Program ID pages that needs no server or database. It is being prepared for the Hawaiʻi Funding Project's sunset in November 2026.
 
-**Status: in preparation.** The code is public, but there is no website here yet (GitHub Pages is off). The live site still runs from [hfp](https://github.com/Hawaii-Data-Collaborative/hfp), unchanged.
+**Status: in preparation.** The code is public, and the site is published with GitHub Pages at <https://hawaii-data-collaborative.github.io/hawaiifunding-site/> (without the stock photos and icons, below). The live site still runs from [hfp](https://github.com/Hawaii-Data-Collaborative/hfp), unchanged.
 
 ## Where this came from
 
@@ -26,7 +26,8 @@ Every number the pages show comes from files built by the [State-Budget](https:/
 5. ~~Make the repo public.~~ 2026-11-04.
 6. ~~Build the site's pages.~~ 2026-11-04: all seven pages of hawaiifunding.org (see [The site](#the-site)), styled after the Squarespace site.
 7. ~~Download files.~~ 2026-11-04: release [data-2026-11](https://github.com/Hawaii-Data-Collaborative/hawaiifunding-site/releases/tag/data-2026-11).
-8. Before turning on GitHub Pages: a decision on the stock photos and icons (see [Still to do](#still-to-do)).
+8. ~~GitHub Pages.~~ 2026-11-04, built by `.github/workflows/pages.yml`, without the stock photos and icons.
+9. A decision on the stock photos and icons (see [Still to do](#still-to-do)).
 
 The `/downloads` page (email-gated workbook zips) and the admin pages are not part of this repo.
 
@@ -61,6 +62,12 @@ Differences from the live site, all because there is no server:
 - **Program ID:** can be linked to a program directly (`?program=EDN100`), which the live page can't.
 - No analytics.
 
+### Publishing (GitHub Pages)
+
+`.github/workflows/pages.yml` builds the site and publishes it on every push to `main`, whenever a release is published, and by hand from the Actions tab. It downloads the data files from `site-data.zip` on the latest release (State-Budget's `Processed Data/site/`, zipped), so the data isn't stored in git. The stock photos and icons are git-ignored, so the published site leaves them out: the photo heroes become plain grey bands and the icons are dropped. To preview that locally, build with `SITE_LICENSED_IMAGES=0`.
+
+To publish new site data: rebuild it in State-Budget (`python build_site_data.py`), zip the contents of `Processed Data/site/` as `site-data.zip`, and attach it to the new data release with the workbooks.
+
 ### Refreshing the downloads
 
 After a database release, rebuild the workbooks with State-Budget's `build_downloads.py`, then create a new release here with the seven zips attached (tag `data-YYYY-MM`). The Database page needs no change: its links always point at the newest release. Older releases stay available as dated snapshots.
@@ -75,7 +82,7 @@ Or on GitHub: Releases, Draft a new release, drag the zips in. The workbooks wer
 
 ### Still to do
 
-- **Stock photos and icons:** the hero photos are Shutterstock images and the small icons are from the Noun Project, both copied from the Squarespace site into `public/images/licensed/`, which is git-ignored. Before publishing, confirm HDC's licenses allow republishing them, or swap them out.
+- **Stock photos and icons:** the hero photos are Shutterstock images and the small icons are from the Noun Project, both copied from the Squarespace site into `public/images/licensed/`, which is git-ignored, so the published site goes without them. To bring them back, confirm HDC's licenses allow republishing them and commit the folder, or swap in other images.
 
 ## Running it locally
 

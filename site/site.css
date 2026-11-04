@@ -239,3 +239,8 @@ p { margin: 0 0 1em; }
   .tool { padding: 24px 20px; }
   .callout { margin-left: 0; }
 }
+
+/* ---------- without the licensed photos and icons (a build where public/images/licensed/ is absent) ---------- */
+.hero--photo:not(:has(.hero__photo)) { background: var(--site-grey-band); }
+.hero--photo:not(:has(.hero__photo))::after { content: none; }
+.approach__step:not(:has(img)) { grid-template-columns: 1fr; }

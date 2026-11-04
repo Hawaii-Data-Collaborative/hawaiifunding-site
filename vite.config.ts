@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
@@ -14,9 +14,22 @@ const PAGES = ['stateviz', 'fedviz', 'programid', 'database', 'methodology', 'co
  *                                 links and images work at any base (a GitHub Pages project
  *                                 address or a domain root)
  *   data-page="X"                 marks the current page's nav link with aria-current="page"
+ *   data-licensed                 elements showing a stock photo or icon from public/images/licensed/
+ *                                 (git-ignored until the licenses are confirmed); when that folder
+ *                                 isn't there, as in a GitHub build, they are left out
  */
 function sitePartials(): Plugin {
   const partial = (name: string) => readFileSync(resolve(__dirname, 'site/partials', `${name}.html`), 'utf8')
+  // SITE_LICENSED_IMAGES=0 builds without them even when the folder is there (to preview the
+  // GitHub build locally)
+  const haveLicensed =
+    process.env.SITE_LICENSED_IMAGES !== '0' && existsSync(resolve(__dirname, 'public/images/licensed'))
+  const dropLicensed = (html: string) =>
+    haveLicensed
+      ? html
+      : html
+          .replace(/<img data-licensed[^>]*>\s*/g, '')
+          .replace(/<div class="hero__photo" data-licensed[^>]*><\/div>\s*/g, '')
   return {
     name: 'site-partials',
     transformIndexHtml: {
@@ -27,7 +40,7 @@ function sitePartials(): Plugin {
         const depth = parts.length - 1
         const root = depth ? '../'.repeat(depth) : './'
         const page = depth ? parts[0] : 'home'
-        return html
+        return dropLicensed(html)
           .replace('<!--header-->', partial('header'))
           .replace('<!--footer-->', partial('footer'))
           .replaceAll('{{root}}', root)

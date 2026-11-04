@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Database — Hawaiʻi Funding Project</title>
+  <meta name="description" content="Download the consolidated, standardized public funding datasets behind the Hawaiʻi Funding Project's tools.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+  <link rel="stylesheet" href="../site/site.css">
+</head>
+<body>
+<!--header-->
+<main id="page">
+
+  <section class="hero hero--photo">
+    <div class="hero__photo" style="background-image: url('{{root}}images/licensed/shutterstock_1095469661.jpg')"></div>
+    <div class="wrap">
+      <h1>Public Funding Database</h1>
+      <div class="callout">
+        <div class="callout__rule"></div>
+        <div class="callout__body">
+          <p>Data is only as useful as it is accessible.</p>
+          <p>Accessible data builds capacity, enabling community insight to drive local decision making.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap--narrow overview">
+      <h2>Overview</h2>
+      <p>The Hawai’i Funding Project <strong>brings together public funding data into one place</strong>: collecting from federal and state sources, standardizing so that categories, formats, and terminology match across systems, and making it available for download so stakeholders can:</p>
+      <ul>
+        <li>Access state and federal funding data in one place</li>
+        <li>Conduct analyses and generate insights</li>
+        <li>Connect public funding data to local priorities and planning</li>
+      </ul>
+      <p>We update our sources and download offerings regularly, ensuring a reliable, accurate, and up-to-date view of Hawai’i’s public resources.</p>
+      <p class="updated"><em>Latest Update: September 2026</em></p>
+    </div>
+  </section>
+
+  <section class="section section--navy anchor" id="downloads">
+    <div class="wrap">
+      <p class="downloads-title">Plug into the Data</p>
+      <!-- The workbooks are built by State-Budget's build_downloads.py. Where they will be
+           hosted (this site's downloads/ folder, or GitHub release assets for the 114 MB
+           federal file) is not decided yet, so these links point at downloads/<name>.zip. -->
+      <ul class="downloads">
+        <li class="download">
+          <img src="{{root}}images/licensed/noun_urbanplanning_7736148_ffffff_-1200.png" alt="" width="56" height="56">
+          <h2>Capital Improvement Projects</h2>
+          <p>This dataset combines the last 10 years of capital improvement projects appropriations.</p>
+          <a class="btn btn--primary" href="{{root}}downloads/hi_state_cip.zip">Download</a>
+        </li>
+        <li class="download">
+          <img src="{{root}}images/licensed/noun_service_6661271_ffffff_-1200.png" alt="" width="56" height="56">
+          <h2>Grants-in-Aid</h2>
+          <p>This dataset combines the last 10 years of grants-in-aid appropriations.</p>
+          <a class="btn btn--primary" href="{{root}}downloads/hi_state_budget_grants.zip">Download</a>
+        </li>
+        <li class="download">
+          <img src="{{root}}images/licensed/noun_report_8463240_ffffff_-1200.png" alt="" width="56" height="56">
+          <h2>Variance Reports</h2>
+          <p>This dataset pulls together the last 10 years of Variance Reports from the Department of Budget and Finance.</p>
+          <a class="btn btn--primary" href="{{root}}downloads/hi_state_request_variance.zip">Download</a>
+        </li>
+        <li class="download">
+          <img src="{{root}}images/licensed/noun-contract-7499037-ffffff.png" alt="" width="56" height="56">
+          <h2>Hawai'i State Contracts</h2>
+          <p>This dataset combines annual state contract reports to the Legislature.</p>
+          <a class="btn btn--primary" href="{{root}}downloads/hi_state_contracts.zip">Download</a>
+        </li>
+        <li class="download">
+          <img src="{{root}}images/licensed/noun-fiscal-policy-7883824-ffffff.png" alt="" width="56" height="56">
+          <h2>Longitudinal State Appropriations</h2>
+          <p>This dataset unifies Hawaiʻi State budget appropriations across fiscal years.</p>
+          <a class="btn btn--primary" href="{{root}}downloads/hi_state_budget.zip">Download</a>
+        </li>
+        <li class="download">
+          <img src="{{root}}images/licensed/noun-process-investment-5231372-ffffff.png" alt="" width="56" height="56">
+          <h2>State Budget Lifecycle</h2>
+          <p>This dataset provides Hawaiʻi State Budget data across the budget lifecycle.</p>
+          <a class="btn btn--primary" href="{{root}}downloads/hi_state_budget_lifecycle.zip">Download</a>
+        </li>
+        <li class="download">
+          <img src="{{root}}images/licensed/noun-taxes-42430-ffffff.png" alt="" width="56" height="56">
+          <h2>Federal Funding</h2>
+          <p>This dataset provides detailed information on Hawai’i’s federal awards.</p>
+          <a class="btn btn--primary" href="{{root}}downloads/hawaii_federal_data.zip">Download</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+<!--footer-->
+</body>
+</html>

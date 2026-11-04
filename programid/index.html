@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Program ID — Hawaiʻi Funding Project</title>
+  <meta name="description" content="Search any Hawaiʻi state program by name or ID to see its appropriation history, recipients, and related documents.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+  <link rel="stylesheet" href="../site/site.css">
+</head>
+<body>
+<!--header-->
+<main id="page">
+
+  <section class="hero hero--photo">
+    <div class="hero__photo" style="background-image: url('{{root}}images/licensed/shutterstock_2109366404.jpg')"></div>
+    <div class="wrap">
+      <h1>State Program Profiles</h1>
+      <div class="callout">
+        <div class="callout__rule"></div>
+        <div class="callout__body">
+          <p>What is behind the programs that shape Hawaiʻi?</p>
+          <p>Seeing the full picture of any program enables more informed advocacy and decision-making.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap--narrow overview">
+      <h2>Overview</h2>
+      <p>State programs are the backbone of public investment in Hawaiʻi, but understanding any single program means piecing together data from budget bills, legislative testimony, executive reports, and more. This tool consolidates that information so stakeholders can:</p>
+      <ul>
+        <li>Track a program's appropriation history across fiscal years</li>
+        <li>See who has received grants and contracts tied to a program</li>
+        <li>Access related documents and program narratives in one place</li>
+      </ul>
+      <p>All underlying data is available for <a href="{{root}}database/">download</a>, and you can learn more about our sources and <a href="{{root}}methodology/">methodology</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0">
+    <div class="wrap">
+      <div id="hfp-program"></div>
+    </div>
+  </section>
+
+</main>
+<!--footer-->
+<script type="module">
+  import '../src/embed/main-program.tsx'
+  // ?program=EDN100 opens that program directly
+  const program = new URLSearchParams(location.search).get('program')
+  window.hfp.renderProgramPage('#hfp-program', program ? { program } : undefined)
+</script>
+</body>
+</html>

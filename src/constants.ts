@@ -4,10 +4,14 @@ export const BASE_URL = PRODUCTION ? 'https://dev.hawaiidata.org/fed-funds-chart
 
 /**
  * Where the data files from State-Budget's build_site_data.py are served: every chart and the
- * Program ID page read them here instead of asking hfp's server. Locally (`npm run dev`),
- * `npm run copy-data` copies them into public/data/, which Vite serves at /data.
+ * Program ID page read them here instead of asking hfp's server. They sit in the site's data/
+ * folder (public/data/, filled by `npm run copy-data`), so this follows the site's base: /data
+ * locally and at a domain root, /hawaiifunding-site/data on a GitHub Pages project address.
+ * The old embed bundles (vite.config.embed-*.ts, base /fed-funds-charts/) are only used by the
+ * embed-test pages on localhost, where the data is at /data.
  */
-export const DATA_URL = PRODUCTION ? `${BASE_URL}/data` : '/data'
+const SITE_BASE = import.meta.env.BASE_URL === '/fed-funds-charts/' ? '/' : import.meta.env.BASE_URL
+export const DATA_URL = `${SITE_BASE}data`
 
 export const Chart = {
   FUNDING_OVERVIEW: 'overview',

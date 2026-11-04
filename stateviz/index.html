@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>State Budget — Hawaiʻi Funding Project</title>
+  <meta name="description" content="Explore how Hawaiʻi's spending priorities and funding sources have evolved over the last decade.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+  <link rel="stylesheet" href="../site/site.css">
+</head>
+<body>
+<!--header-->
+<main id="page">
+
+  <section class="hero hero--photo">
+    <div class="hero__photo" style="background-image: url('{{root}}images/licensed/shutterstock_424533343.jpg')"></div>
+    <div class="wrap">
+      <h1>Hawaiʻi State Budget Explorer</h1>
+      <div class="callout">
+        <div class="callout__rule"></div>
+        <div class="callout__body">
+          <p>What are we investing in, and does that reflect the Hawai'i we want?</p>
+          <p>Understanding the state budget reveals Hawaiʻi's priorities and enables decisions that reflect shared values.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap--narrow overview">
+      <h2>Overview</h2>
+      <p>Our state government allocates billions of dollars each year to fund essential services across Hawaiʻi. This visualization tool makes <strong>state budget data transparent and accessible</strong> so stakeholders can:</p>
+      <ul>
+        <li>Understand where dollars currently flow</li>
+        <li>Identify potential funding gaps</li>
+        <li>Assess impacts of budgetary shifts</li>
+      </ul>
+      <p>All underlying data is available for <a href="{{root}}database/">download</a>, and you can learn more about our sources and <a href="{{root}}methodology/">methodology</a>.</p>
+      <div class="overview__cta">
+        <p><strong>Ready to explore the data?</strong></p>
+        <div class="buttons">
+          <a class="btn btn--primary" href="#trends">10 Year Trends ↓</a>
+          <a class="btn btn--primary" href="#fiscalyear">Fiscal Year Breakdown ↓</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--grey anchor" id="trends">
+    <div class="wrap">
+      <div class="charts-intro">
+        <h1>10 Year Budget Trends</h1>
+        <h4>Explore how Hawaiʻi’s spending priorities and funding sources have evolved over the last decade.</h4>
+      </div>
+      <div class="chart-block">
+        <h2>Annual Appropriations by Funding Source</h2>
+        <p>Each bar represents one fiscal year’s total budget, broken down by funding source</p>
+        <div class="chart" id="chart-source"><div class="hfp-embed"></div></div>
+      </div>
+      <div class="chart-block">
+        <h2>Annual Appropriations by Budget Area</h2>
+        <p>Each bar represents one fiscal year’s total budget, broken down by budget area*</p>
+        <p><em>*These categories are pulled directly from how the budget document is organized</em></p>
+        <div class="chart" id="chart-area"><div class="hfp-embed"></div></div>
+      </div>
+      <div class="chart-block">
+        <h2>Annual Appropriations by Department</h2>
+        <p>Each bar represents one fiscal year’s total budget, broken down by department</p>
+        <div class="chart" id="chart-dept"><div class="hfp-embed"></div></div>
+      </div>
+      <div class="chart-block">
+        <h2>Year-Over-Year Change</h2>
+        <p>Each bar represents the percent change from the previous fiscal year, with trend lines for the major funding sources to explore potential drivers of budget changes</p>
+        <div class="chart" id="chart-yoy"><div class="hfp-embed"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section anchor" id="fiscalyear">
+    <div class="wrap">
+      <div class="charts-intro">
+        <h1>Fiscal Year Breakdown</h1>
+        <h4>Drill down from budget areas to departments to programs for any fiscal year.</h4>
+      </div>
+      <div class="chart-block">
+        <h2>Budget Composition</h2>
+        <p>Outer ring shows where money goes and inner ring shows where it comes from</p>
+        <div class="chart" id="chart-donut"><div class="hfp-embed"></div></div>
+      </div>
+      <div class="chart-block">
+        <h2>Fiscal Year Breakdown by Funding Source</h2>
+        <div class="chart" id="chart-breakdown"><div class="hfp-embed"></div></div>
+      </div>
+      <hr class="section-rule">
+    </div>
+  </section>
+
+</main>
+<!--footer-->
+<script type="module">
+  import '../src/embed/main-state.tsx'
+  const charts = [
+    ['#chart-source', 'stacked-bar-source'],
+    ['#chart-area', 'stacked-bar-area'],
+    ['#chart-dept', 'stacked-bar-department'],
+    ['#chart-yoy', 'yoy-change'],
+    ['#chart-donut', 'budget-composition'],
+    ['#chart-breakdown', 'funding-breakdown']
+  ]
+  for (const [el, chart] of charts) window.hfp.renderChart(el, chart)
+</script>
+</body>
+</html>

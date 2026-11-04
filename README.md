@@ -24,7 +24,8 @@ Every number the pages show comes from files built by the [State-Budget](https:/
    - **Program ID (AGR141, EDN100, HMS301, TRN102):** every section has the same content. The only differences are the order of rows tied on amount in the capital projects and grants lists, which the live database returns in no fixed order.
 4. ~~Choose a license.~~ MIT, matching State-Budget (2026-11-04).
 5. ~~Make the repo public.~~ 2026-11-04.
-6. Build the site's pages and turn on GitHub Pages. Not started: the repo has the three chart bundles and developer test pages, and `DATA_URL` in a production build still points at dev.hawaiidata.org.
+6. ~~Build the site's pages.~~ 2026-11-04: all seven pages of hawaiifunding.org (see [The site](#the-site)), styled after the Squarespace site.
+7. Before turning on GitHub Pages: a contact email, the download files, and a decision on the stock photos and icons (see [Still to do](#still-to-do)).
 
 The `/downloads` page (email-gated workbook zips) and the admin pages are not part of this repo.
 
@@ -37,6 +38,34 @@ The `/downloads` page (email-gated workbook zips) and the admin pages are not pa
 - `package.json`: `npm run copy-data`, and d3 pinned to the versions hfp's `bun.lock` had (d3 7.9.0, d3-selection 3.0.0, d3-transition 3.0.1). The newer d3 7.9.2 / d3-transition 3.0.2 that npm picks otherwise break the production build of the state charts (`selection.transition is not a function`).
 - npm instead of Bun: `package-lock.json` replaces `bun.lock`.
 
+## The site
+
+One page per hawaiifunding.org address, so links keep working if the domain moves here:
+
+| Page | File | Live original |
+|---|---|---|
+| Home | `index.html` | hawaiifunding.org/ |
+| State Budget | `stateviz/index.html` | /stateviz |
+| Federal Funding | `fedviz/index.html` | /fedviz |
+| Program ID | `programid/index.html` (also opens a program directly: `?program=EDN100`) | /programid |
+| Database | `database/index.html` | /database |
+| Methodology | `methodology/index.html` | /methodology |
+| Contact | `contact/index.html` | /contact |
+
+The text is copied from the live pages (2026-11-04). The shared header and footer are in `site/partials/` and the styles in `site/site.css` (DM Sans, the site's navy and teal, its section bands, buttons and callouts). `vite.config.ts` puts the partials into every page and fills `{{root}}`, the relative path back to the site root, so the same pages work at a domain root or under a GitHub Pages project address. Each chart page loads the chart code straight from `src/embed/`, as the Squarespace pages loaded the built bundles.
+
+Differences from the live site, all because there is no server:
+- **Contact:** the live form needs Squarespace to deliver it; this page gives an email address instead.
+- **Database:** the download buttons are plain links to `downloads/<name>.zip` (no email sign-up).
+- **Program ID:** can be linked to a program directly (`?program=EDN100`), which the live page can't.
+- No analytics.
+
+### Still to do
+
+- **Contact email:** the Contact page shows a placeholder.
+- **Download files:** `downloads/*.zip` aren't here yet. They come from State-Budget's `build_downloads.py`; `hawaii_federal_data.zip` (114 MB) is over GitHub's 100 MB file limit and would need to be a release asset.
+- **Stock photos and icons:** the hero photos are Shutterstock images and the small icons are from the Noun Project, both copied from the Squarespace site into `public/images/licensed/`, which is git-ignored. Before publishing, confirm HDC's licenses allow republishing them, or swap them out.
+
 ## Running it locally
 
 Needs [Node.js](https://nodejs.org), and the data files built in State-Budget (`python build_site_data.py` there). From this folder:
@@ -47,9 +76,22 @@ npm run copy-data
 npm run dev
 ```
 
-`copy-data` copies `..\State Budget\Processed Data\site` into `public\data` (set `SITE_DATA_DIR` to copy from elsewhere). Then open the test pages at <http://localhost:3001/embed-test-federal.html> and <http://localhost:3001/embed-test-program.html?program=EDN100>. They load the source directly.
+`copy-data` copies `..\State Budget\Processed Data\site` into `public\data` (set `SITE_DATA_DIR` to copy from elsewhere). Then open <http://localhost:3001/>.
 
-`embed-test-state.html` loads the built bundle instead, so build it first with `npm run build:embed-state` (and after each change).
+To build the site into `dist/`:
+
+```bash
+npm run build
+```
+
+For a GitHub Pages project address, set the base path first (PowerShell):
+
+```powershell
+$env:SITE_BASE = "/hawaiifunding-site/"
+npm run build
+```
+
+The old embed test pages still work: `embed-test-federal.html` and `embed-test-program.html` load the source directly; `embed-test-state.html` loads the built bundle, so run `npm run build:embed-state` first. The old dev app is at `dev.html`.
 
 ## License
 

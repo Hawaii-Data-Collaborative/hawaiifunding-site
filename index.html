@@ -1,21 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hawaiʻi Funding Project</title>
+  <meta name="description" content="The Hawaiʻi Funding Project assembles disparate funding data into a clear, consolidated view of how public resources flow into and across Hawaiʻi.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
-    rel="stylesheet">
-  <title>HDC | Federal Funds Viz</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+  <link rel="stylesheet" href="./site/site.css">
 </head>
+<body>
+<!--header-->
+<main id="page">
 
-<body style="color: #444">
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
+  <section class="hero hero--photo home-hero">
+    <div class="hero__photo" style="background-image: url('{{root}}images/licensed/shutterstock_81893269.jpg')"></div>
+    <div class="wrap">
+      <h1><strong>Data for </strong><strong>Public Good</strong></h1>
+      <div class="home-hero__intro">
+        <p>The Hawaiʻi Funding Project assembles disparate funding data into a clear, consolidated view of how public resources flow into and across Hawaiʻi.</p>
+        <p>We are working to close the gap between data and the community leaders best positioned to act on it.</p>
+      </div>
+      <div class="buttons">
+        <a class="btn btn--primary" href="#products">Explore the Tools</a>
+        <a class="btn btn--secondary" href="#gap">Why this Matters</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--grey anchor" id="gap">
+    <div class="wrap">
+      <h2>The Infrastructure Gap</h2>
+      <p style="margin-left: clamp(0px, 2vw, 32px)">The data is there but the infrastructure to make it accessible is missing.</p>
+      <h3 style="margin-top: 1.6em; font-size: clamp(1.3rem, 1.9vw, 1.6rem)">We are solving for three problems:</h3>
+      <div class="problems">
+        <div class="problem"><h2><strong>1</strong></h2><h4>Public but inaccessible</h4><p>State budget data is locked in inaccessible formats</p></div>
+        <div class="problem"><h2><strong>2</strong></h2><h4>Labor intensive</h4><p>Federal funding data is difficult to wrangle and disconnected from local context</p></div>
+        <div class="problem"><h2><strong>3</strong></h2><h4>Viewed in siloes</h4><p>No platform combines multiple sources into a holistic picture</p></div>
+      </div>
+      <div class="solution">
+        <h3><strong>Our solution: accessibility, integration, and action.</strong></h3>
+        <h4>We are starting to fill a major gap in our public data infrastructure, with the hope that it becomes a sustained, locally-driven capacity.</h4>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Our Approach</h2>
+      <p style="margin-left: clamp(0px, 2vw, 32px)">We make the data <em>accessible</em> and community partners make it <em>actionable</em>.</p>
+      <div class="approach">
+        <div class="approach__step">
+          <img src="{{root}}images/licensed/noun-data-6908912-008f8c.png" alt="" width="72" height="72">
+          <div><h4>Start with public data</h4><p>We gather, clean, and transform publicly available data into accessible, usable formats.</p></div>
+        </div>
+        <div class="approach__step">
+          <img src="{{root}}images/licensed/noun-customer-5908910-008f8c.png" alt="" width="72" height="72">
+          <div><h4>Calibrate with community feedback</h4><p>We share prototypes with community partners, incorporating feedback on what's useful, what's missing, and whether other data sources could unlock deeper insights.</p></div>
+        </div>
+        <div class="approach__step">
+          <img src="{{root}}images/licensed/noun-process-8187738-008f8c.png" alt="" width="72" height="72">
+          <div><h4>Iterate and improve</h4><p>This is a process as much as it is a product. We commit to continuous improvement driven by the communities we seek to serve.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--grey anchor" id="products">
+    <div class="wrap">
+      <h2>Our Tools</h2>
+      <div class="tools">
+        <div class="tool">
+          <h3><a href="{{root}}stateviz/">Hawaiʻi State Budget Explorer</a></h3>
+          <p>Navigate the state budget through a series of visualizations built to make the data accessible without technical expertise.</p>
+          <ul><li>10-year trends</li><li>Year-over-year changes</li><li>Fiscal year drill downs to individual programs</li></ul>
+        </div>
+        <div class="tool">
+          <h3><a href="{{root}}fedviz/">Federal Funding in Hawaiʻi</a></h3>
+          <p>Explore the role of federal funding in Hawaiʻi to learn potential local impacts of federal shifts.</p>
+          <ul><li>Longitudinal trends in obligations</li><li>Per capita spending</li><li>Fiscal year drill downs to individual awards</li></ul>
+        </div>
+        <div class="tool">
+          <h3><a href="{{root}}programid/">Program ID Drill Down</a></h3>
+          <p>Search any state program by name or ID to uncover its appropriation history, recipients, and related documents.</p>
+          <ul><li>Longitudinal appropriation history</li><li>Grant and contract recipients</li><li>Related documents and reports</li></ul>
+        </div>
+        <div class="tool">
+          <h3><a href="{{root}}database/">Public Funding Database</a></h3>
+          <p>Dive into the data by downloading the consolidated, standardized datasets that power our visualization tools.</p>
+          <ul><li>State budget appropriations</li><li>State contracts</li><li>Federal funding</li></ul>
+        </div>
+        <div class="tool">
+          <h3><a href="{{root}}methodology/">Methodology</a></h3>
+          <p>Explore the sources, decisions, and frameworks behind our tools.</p>
+          <ul><li>Key data sources</li><li>Cleaning and standardization approach</li><li>Validation and accuracy checks</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+<!--footer-->
 </body>
-
 </html>

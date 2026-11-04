@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Federal Funding — Hawaiʻi Funding Project</title>
+  <meta name="description" content="Explore how federal funding in Hawaiʻi has evolved over the last decade.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+  <link rel="stylesheet" href="../site/site.css">
+</head>
+<body>
+<!--header-->
+<main id="page">
+
+  <section class="hero hero--photo">
+    <div class="hero__photo" style="background-image: url('{{root}}images/licensed/shutterstock_532480960.jpg')"></div>
+    <div class="wrap">
+      <h1>Federal Funding in Hawaiʻi</h1>
+      <div class="callout">
+        <div class="callout__rule"></div>
+        <div class="callout__body">
+          <p>Where do federal dollars flow to in Hawaiʻi and what do they support?</p>
+          <p>Understanding the federal funding picture reveals Hawaiʻi's ties to the federal government and local impacts of shifts in federal priorities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap--narrow overview">
+      <h2>Overview</h2>
+      <p>Hawaiʻi receives billions of dollars from the federal government each year, but only a fraction flows through the <a href="{{root}}stateviz/">state budget</a>. This tool shows <strong>all federal funding commitments in Hawaiʻi</strong>, including:</p>
+      <ul>
+        <li><strong>Direct benefits</strong>: Payments to individuals (e.g. Social Security, SNAP)</li>
+        <li><strong>Pass-through funding</strong>: Federal grants to state agencies (e.g. Medicaid)</li>
+        <li><strong>Contracts &amp; grants</strong>: Federal awards to Hawaiʻi-based entities (e.g. small businesses and nonprofits)</li>
+      </ul>
+      <p>All underlying data is available for <a href="{{root}}database/">download</a>, and you can learn more about our sources and <a href="{{root}}methodology/">methodology</a>.</p>
+      <div class="overview__cta">
+        <p><strong>Ready to explore the data?</strong></p>
+        <div class="buttons">
+          <a class="btn btn--primary" href="#trends">Longitudinal Trends ↓</a>
+          <a class="btn btn--primary" href="#fiscalyear">Fiscal Year Breakdown ↓</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--grey anchor" id="trends">
+    <div class="wrap">
+      <div class="charts-intro">
+        <h1>Federal Spending Trends</h1>
+        <h3>Explore how federal funding in Hawaiʻi has evolved over the last decade.</h3>
+        <p><em>Note: 2026 is not included given that it is a partial year and data from USASpending is typically on a 3 month delay</em></p>
+      </div>
+      <div class="chart-block">
+        <h2>Annual Obligations by Recipient Type</h2>
+        <p>Each bar represents one fiscal year’s total obligations, broken down by recipient type*</p>
+        <p><em>*These categories were created for easier user navigation</em></p>
+        <div class="chart" id="chart-federal-recipient-type"></div>
+      </div>
+      <div class="chart-block">
+        <h2>Annual Obligations by Department/Agency</h2>
+        <p>Each bar represents one fiscal year’s total obligations, broken down by the major awarding Departments and Agencies</p>
+        <div class="chart" id="chart-federal-department"></div>
+      </div>
+      <div class="chart-block">
+        <h2>Annual Per Capita Funding</h2>
+        <p>Each bar represents the funding per capita based on the obligation totals and population in a given fiscal year.</p>
+        <p>The line graph shows Hawai’i’s per capita funding in relation to the national average.</p>
+        <div class="chart" id="chart-federal-per-capita"></div>
+      </div>
+      <div class="chart-block">
+        <h2>Year-Over-Year Change</h2>
+        <p>Each bar represents the percent change from the previous fiscal year, with trend lines for award types to explore potential drivers of changes</p>
+        <div class="chart" id="chart-federal-yoy"></div>
+      </div>
+      <div class="chart-block">
+        <h2>Annual Obligations by Award Type</h2>
+        <p>Each bar represents one fiscal year’s total obligations, broken down by award type*</p>
+        <p><em>*These categories are pulled directly from USASpending</em></p>
+        <div class="chart" id="chart-federal-award-type"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section anchor" id="fiscalyear">
+    <div class="wrap">
+      <div class="charts-intro">
+        <h1>Fiscal Year Breakdown</h1>
+        <h3>Drill down from department to agencies to awards for any fiscal year.</h3>
+      </div>
+      <div class="chart-block">
+        <h2>Federal Spending Composition</h2>
+        <p>Unpack a fiscal year by funding types, recipient categories, and more.</p>
+        <div class="chart" id="chart-federal-composition"></div>
+      </div>
+      <div class="chart-block">
+        <h2>Fiscal Year Breakdown</h2>
+        <div class="chart" id="chart-federal-drilldown"></div>
+      </div>
+      <hr class="section-rule">
+    </div>
+  </section>
+
+</main>
+<!--footer-->
+<script type="module">
+  import '../src/embed/main-federal.tsx'
+  const charts = [
+    ['#chart-federal-recipient-type', 'federal-by-recipient-type'],
+    ['#chart-federal-department', 'federal-by-department'],
+    ['#chart-federal-per-capita', 'federal-per-capita'],
+    ['#chart-federal-yoy', 'federal-yoy'],
+    ['#chart-federal-award-type', 'federal-by-award-type'],
+    ['#chart-federal-composition', 'federal-composition'],
+    ['#chart-federal-drilldown', 'federal-drilldown']
+  ]
+  for (const [el, chart] of charts) window.hfp.renderFederalChart(el, chart)
+</script>
+</body>
+</html>

@@ -25,7 +25,7 @@ Every number the pages show comes from files built by the [State-Budget](https:/
 4. ~~Choose a license.~~ MIT, matching State-Budget (2026-11-04).
 5. ~~Make the repo public.~~ 2026-11-04.
 6. ~~Build the site's pages.~~ 2026-11-04: all seven pages of hawaiifunding.org (see [The site](#the-site)), styled after the Squarespace site.
-7. Before turning on GitHub Pages: a contact email, the download files, and a decision on the stock photos and icons (see [Still to do](#still-to-do)).
+7. Before turning on GitHub Pages: the download files, and a decision on the stock photos and icons (see [Still to do](#still-to-do)).
 
 The `/downloads` page (email-gated workbook zips) and the admin pages are not part of this repo.
 
@@ -55,14 +55,13 @@ One page per hawaiifunding.org address, so links keep working if the domain move
 The text is copied from the live pages (2026-11-04). The shared header and footer are in `site/partials/` and the styles in `site/site.css` (DM Sans, the site's navy and teal, its section bands, buttons and callouts). `vite.config.ts` puts the partials into every page and fills `{{root}}`, the relative path back to the site root, so the same pages work at a domain root or under a GitHub Pages project address. Each chart page loads the chart code straight from `src/embed/`, as the Squarespace pages loaded the built bundles.
 
 Differences from the live site, all because there is no server:
-- **Contact:** the live form needs Squarespace to deliver it; this page gives an email address instead.
+- **Contact:** the live form needs Squarespace to deliver it; this page gives an email address instead (ekern@hawaiidata.org; to change it, edit the link and its text in `contact/index.html`).
 - **Database:** the download buttons are plain links to `downloads/<name>.zip` (no email sign-up).
 - **Program ID:** can be linked to a program directly (`?program=EDN100`), which the live page can't.
 - No analytics.
 
 ### Still to do
 
-- **Contact email:** the Contact page shows a placeholder.
 - **Download files:** `downloads/*.zip` aren't here yet. They come from State-Budget's `build_downloads.py`; `hawaii_federal_data.zip` (114 MB) is over GitHub's 100 MB file limit and would need to be a release asset.
 - **Stock photos and icons:** the hero photos are Shutterstock images and the small icons are from the Noun Project, both copied from the Squarespace site into `public/images/licensed/`, which is git-ignored. Before publishing, confirm HDC's licenses allow republishing them, or swap them out.
 
